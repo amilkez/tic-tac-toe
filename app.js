@@ -1,6 +1,6 @@
 const GameBoard = (() => {
 	const gameBoard = ["x", "o", "x", "x", "x", "o", "x", "o", "x"];
-	const markFields = Array.from(document.querySelectorAll(".mark-field"));
+	const markFields = Array.from(document.querySelectorAll("[data-field]"));
 
 	return { gameBoard, markFields };
 })();
@@ -12,6 +12,7 @@ const DisplayController = (() => {
 			markField.textContent = GameBoard.gameBoard[i];
 		});
 	};
+
 	return { displayMarks };
 })();
 
@@ -21,5 +22,11 @@ const Player = (name, mark) => {
 	return { getName, getMark };
 };
 
-const player1 = Player("Player 1", "x");
+const player1 = Player("Player1", "x");
 const player2 = Player("Player2", "o");
+
+const Game = (() => {
+	const currentPlayer = player1.getName();
+	const currentMark = player1.getMark();
+	return { currentPlayer, currentMark };
+})();

@@ -28,7 +28,7 @@ body {
 	grid-template-rows: repeat(3, 1fr);
 }
 
-.mark-field {
+.field {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -38,26 +38,26 @@ body {
 	color: #deeeea;
 }
 
-.mark-field:nth-child(1),
-.mark-field:nth-child(2),
-.mark-field:nth-child(3) {
+.field:nth-child(1),
+.field:nth-child(2),
+.field:nth-child(3) {
 	border-top: none;
 }
 
-.mark-field:nth-child(7),
-.mark-field:nth-child(8),
-.mark-field:nth-child(9) {
+.field:nth-child(7),
+.field:nth-child(8),
+.field:nth-child(9) {
 	border-bottom: none;
 }
 
-.mark-field:nth-child(1),
-.mark-field:nth-child(4),
-.mark-field:nth-child(7) {
+.field:nth-child(1),
+.field:nth-child(4),
+.field:nth-child(7) {
 	border-left: none;
 }
 
-.mark-field:nth-child(3),
-.mark-field:nth-child(6),
-.mark-field:nth-child(9) {
+.field:nth-child(3),
+.field:nth-child(6),
+.field:nth-child(9) {
 	border-right: none;
 }
