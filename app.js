@@ -1,21 +1,3 @@
-const GameBoard = (() => {
-	const gameBoard = ["x", "o", "x", "x", "x", "o", "x", "o", "x"];
-	const markFields = Array.from(document.querySelectorAll("[data-field]"));
-
-	return { gameBoard, markFields };
-})();
-
-const DisplayController = (() => {
-	const markFields = GameBoard.markFields;
-	const displayMarks = () => {
-		markFields.forEach((markField, i) => {
-			markField.textContent = GameBoard.gameBoard[i];
-		});
-	};
-
-	return { displayMarks };
-})();
-
 const Player = (name, mark) => {
 	const getName = () => name;
 	const getMark = () => mark;
@@ -30,3 +12,29 @@ const Game = (() => {
 	const currentMark = player1.getMark();
 	return { currentPlayer, currentMark };
 })();
+
+const GameBoard = (() => {
+	const gameBoard = ["x", "o", "x", "x", "x", "o", "x", "o", "x"];
+	const markFields = Array.from(document.querySelectorAll("[data-field]"));
+
+	return { gameBoard, markFields };
+})();
+
+const DisplayController = (() => {
+	const markFields = GameBoard.markFields;
+	const mark = Game.currentMark;
+
+	const displayMarks = () => {
+		markFields.forEach((markField, i) => {
+			markField.addEventListener("click", () => {
+				GameBoard.gameBoard[i] = mark;
+				const playerMark = GameBoard.gameBoard[i];
+				markField.textContent = playerMark;
+			});
+		});
+	};
+
+	return { displayMarks };
+})();
+
+DisplayController.displayMarks();
