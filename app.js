@@ -96,7 +96,18 @@ const Game = (() => {
 		});
 	};
 
-	return { startGame };
+	const resetBoard = () => {
+		GameBoard.gameBoard = ["", "", "", "", "", "", "", "", ""];
+		isGameActive = true;
+		if (currentPlayer === player2) {
+			changeTurn();
+		}
+		markFields.forEach((field) => {
+			field.textContent = "";
+		});
+	};
+
+	return { startGame, resetBoard };
 })();
 
 Game.startGame();
