@@ -1,40 +1,57 @@
 const Player = (name, mark) => {
-	const getName = () => name;
-	const getMark = () => mark;
-	return { getName, getMark };
+	let playersName = name;
+	let playersMark = mark;
+	let isPlayersTurn = false;
+
+	return { playersName, playersMark, isPlayersTurn };
 };
 
 const player1 = Player("Player1", "x");
 const player2 = Player("Player2", "o");
 
-const Game = (() => {
-	const currentPlayer = player1.getName();
-	const currentMark = player1.getMark();
-	return { currentPlayer, currentMark };
-})();
-
 const GameBoard = (() => {
-	const gameBoard = ["x", "o", "x", "x", "x", "o", "x", "o", "x"];
+	const gameBoard = ["", "", "", "", "", "", "", "", ""];
 	const markFields = Array.from(document.querySelectorAll("[data-field]"));
 
 	return { gameBoard, markFields };
 })();
 
-const DisplayController = (() => {
-	const markFields = GameBoard.markFields;
-	const mark = Game.currentMark;
+const Game = (() => {
+	const { gameBoard, markFields } = GameBoard;
+	const X_CLASS = "x";
+	const CIRCLE_CLASS = "circle";
 
-	const displayMarks = () => {
-		markFields.forEach((markField, i) => {
-			markField.addEventListener("click", () => {
-				GameBoard.gameBoard[i] = mark;
-				const playerMark = GameBoard.gameBoard[i];
-				markField.textContent = playerMark;
-			});
+	let isGameActive = true;
+	let currentPlayer = player1;
+	let playerTurn;
+
+	const isValidAction = (tile) => {
+		if (!tile.textContent) {
+			return false;
+		}
+		return true;
+	};
+
+	const updateBoard = (index) => {
+		gameBoard[index] = currentPlayer.playersMark;
+	};
+
+	const handleClick = (e) => {
+		const field = e.target;
+		const index = field.dataset.field;
+		const currentTurn = playerTurn ? CIRCLE_CLASS : X_CLASS;
+		updateBoard(index);
+		console.log(currentTurn, field, index);
+	};
+
+	const startGame = () => {
+		playerTurn = currentPlayer.isPlayersTurn;
+		markFields.forEach((field) => {
+			field.addEventListener("click", handleClick, { once: true });
 		});
 	};
 
-	return { displayMarks };
+	return { startGame };
 })();
 
-DisplayController.displayMarks();
+Game.startGame();
