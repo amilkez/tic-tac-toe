@@ -41,11 +41,20 @@ const Game = (() => {
 	};
 
 	const handleClick = (e) => {
+		console.log(currentPlayer);
 		const field = e.target;
 		const index = field.dataset.field;
-		const currentTurn = playerTurn ? CIRCLE_CLASS : X_CLASS;
 		updateBoard(index);
 		fillField(field);
+		changeTurn();
+	};
+
+	const changeTurn = () => {
+		if (currentPlayer === player1) {
+			currentPlayer = player2;
+		} else if (currentPlayer === player2) {
+			currentPlayer = player1;
+		}
 	};
 
 	const startGame = () => {
