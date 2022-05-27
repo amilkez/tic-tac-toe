@@ -12,12 +12,13 @@ const player2 = Player("Player2", "o");
 const GameBoard = (() => {
 	let gameBoard = ["", "", "", "", "", "", "", "", ""];
 	const markFields = Array.from(document.querySelectorAll("[data-field]"));
-
-	return { gameBoard, markFields };
+	const endGameScreen = document.querySelector(".end-game-screen");
+	const restartBtn = document.querySelector(".restart-btn");
+	return { gameBoard, markFields, restartBtn, endGameScreen };
 })();
 
 const Game = (() => {
-	const { gameBoard, markFields } = GameBoard;
+	const { gameBoard, markFields, restartBtn, endGameScreen } = GameBoard;
 
 	let isGameActive = true;
 	let currentPlayer = player1;
@@ -39,7 +40,9 @@ const Game = (() => {
 	};
 
 	const fillField = (field) => {
-		field.textContent = currentPlayer.playersMark;
+		if (!field.textContent) {
+			field.textContent = currentPlayer.playersMark;
+		}
 	};
 
 	const changeTurn = () => {
@@ -67,18 +70,17 @@ const Game = (() => {
 		}
 
 		if (roundWon) {
-			console.log("playerwon");
+			endGameScreen.style.display = "flex";
 			isGameActive = false;
 			return;
 		}
 
 		if (!gameBoard.includes("")) {
-			console.log("tie");
+			endGameScreen.style.display = "flex";
 		}
 	};
 
 	const handleClick = (e) => {
-		const currentClass = playerTurn ? player2.playersMark : player1.playersMark;
 		const field = e.target;
 		const index = field.dataset.field;
 		if (isGameActive) {
@@ -89,6 +91,20 @@ const Game = (() => {
 		}
 	};
 
+	const restartGame = () => {
+		isGameActive = true;
+		currentPlayer = player1;
+		playerTurn = currentPlayer.isPlayersTurn;
+		isGameActive = true;
+		GameBoard.gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+		markFields.forEach((field) => {
+			field.textContent = "";
+			field.removeEventListener("click", handleClick);
+		});
+		endGameScreen.style.display = "none";
+	};
+
 	const startGame = () => {
 		playerTurn = currentPlayer.isPlayersTurn;
 		markFields.forEach((field) => {
@@ -96,18 +112,9 @@ const Game = (() => {
 		});
 	};
 
-	const resetBoard = () => {
-		GameBoard.gameBoard = ["", "", "", "", "", "", "", "", ""];
-		isGameActive = true;
-		if (currentPlayer === player2) {
-			changeTurn();
-		}
-		markFields.forEach((field) => {
-			field.textContent = "";
-		});
-	};
+	restartBtn.addEventListener("click", restartGame);
 
-	return { startGame, resetBoard };
+	return { startGame };
 })();
 
 Game.startGame();
