@@ -19,7 +19,7 @@ const GameBoard = (() => {
 const Game = (() => {
 	const { gameBoard, markFields } = GameBoard;
 	const X_CLASS = "x";
-	const CIRCLE_CLASS = "circle";
+	const CIRCLE_CLASS = "o";
 
 	let isGameActive = true;
 	let currentPlayer = player1;
@@ -36,12 +36,16 @@ const Game = (() => {
 		gameBoard[index] = currentPlayer.playersMark;
 	};
 
+	const fillField = (field) => {
+		field.textContent = currentPlayer.playersMark;
+	};
+
 	const handleClick = (e) => {
 		const field = e.target;
 		const index = field.dataset.field;
 		const currentTurn = playerTurn ? CIRCLE_CLASS : X_CLASS;
 		updateBoard(index);
-		console.log(currentTurn, field, index);
+		fillField(field);
 	};
 
 	const startGame = () => {
